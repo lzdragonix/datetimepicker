@@ -26,3 +26,21 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
 }
+
+task jarAll (type: Jar)  {
+    baseName 'datetimepicker'
+    from buildDir.absolutePath + '/intermediates/classes/release'
+    destinationDir file(buildDir.absolutePath)
+    //exclude '**/BuildConfig.class', '**/R.class', '**/R\$*.class'
+}
+
+//when minifyEnabled false
+//it's another way to proguard aar packet
+task prog (type: proguard.gradle.ProGuardTask) {
+    configuration 'proguard-rules.pro'
+    injars 'build/outputs/aar/datetimepicker-release.aar'
+    outjars 'build/datetimepicker.aar'
+    libraryjars "${System.properties['java.home']}/lib/rt.jar"
+    libraryjars '/Users/leo/Library/Android/sdk/platforms/android-21/android.jar'
+//    libraryjars "${System.getProperty('java.home')}/Contents/Classes/classes.jar"
+}
